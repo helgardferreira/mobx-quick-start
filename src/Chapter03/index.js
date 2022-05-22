@@ -1,4 +1,4 @@
-import { store } from './book-store';
+import { store } from './joke-store';
 import React, { Fragment } from 'react';
 import { Grid, Paper, Typography } from '@material-ui/core';
 import { inject, observer, Provider } from 'mobx-react';
@@ -43,12 +43,12 @@ function Header() {
             color="inherit"
             style={{ marginBottom: 20, textAlign: 'center' }}
         >
-            MobX QuickStart Book Store
+            MobX QuickStart Joke Store
         </Typography>
     );
 }
 
-export function BookSearchExample() {
+export function JokeSearchExample() {
     return (
         <Provider store={store}>
             <App />

@@ -25,7 +25,7 @@ export class SearchTextField extends React.Component {
         return (
             <Fragment>
                 <TextField
-                    placeholder={'Search Books...'}
+                    placeholder={'Search Jokes...'}
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
@@ -99,7 +99,7 @@ export const SearchStatus = inject('store')(
 //
 //                 {results.map(x => (
 //                     <Grid item xs={12} key={x.id}>
-//                         <BookItem book={x} />
+//                         <JokesItem joke={x} />
 //                         <Divider />
 //                     </Grid>
 //                 ))}
@@ -135,7 +135,7 @@ export class ResultsList extends React.Component {
 
                 {results.map(x => (
                     <Grid item xs={12} key={x.id}>
-                        <BookItem book={x} />
+                        <JokeItem joke={x} />
                         <Divider />
                     </Grid>
                 ))}
@@ -154,7 +154,7 @@ function EmptyResults() {
     );
 }
 
-function BookItem({ book }) {
+function JokeItem({ joke }) {
     return (
         <Card
             elevation={0}
@@ -164,24 +164,16 @@ function BookItem({ book }) {
                 padding: '1rem',
             }}
         >
-            <CardMedia
-                src={book.image}
-                component={'img'}
-                style={{ height: 200, width: 'auto' }}
-            />
             <CardContent>
-                <Typography variant={'headline'}>{book.title}</Typography>
-                <Typography variant={'subheading'}>{book.author}</Typography>
-                <Typography
-                    variant={'subheading'}
-                    style={{ color: 'darkorange' }}
-                >
-                    {book.rating}★<span style={{ color: 'black' }}>
-                        <span>
-                            {' from '}
-                            <strong>{book.totalRatings}</strong> ratings.
-                        </span>
-                    </span>
+                <a href={joke.url}>
+                    <Typography>{joke.id}</Typography>
+                </a>
+                <Typography>{joke.value}</Typography>
+                <Typography>
+                    Created: {joke.createdAt.toDateString()}
+                </Typography>
+                <Typography>
+                    Updated: {joke.updatedAt.toDateString()}
                 </Typography>
             </CardContent>
         </Card>

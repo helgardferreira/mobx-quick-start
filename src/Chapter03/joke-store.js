@@ -1,5 +1,5 @@
-import { searchBooks } from './goodreads.service';
-import { action, computed, observable, runInAction } from 'mobx';
+import { searchJokes } from './goodreads.service';
+import { flow, action, computed, observable, runInAction } from 'mobx';
 
 // const searchState = observable({
 //     term: '',
@@ -16,7 +16,7 @@ import { action, computed, observable, runInAction } from 'mobx';
 //     }),
 // });
 
-class BookSearchStore {
+class JokeSearchStore {
     @observable term = 'javascript';
     @observable status = '';
     @observable.shallow results = [];
@@ -37,22 +37,21 @@ class BookSearchStore {
         this.term = value;
     }
 
-    @action.bound
-    async search() {
-        try {
-            this.status = 'pending';
-            const result = await searchBooks(this.term);
+    search = flow(
+        function*() {
+            try {
+                this.status = 'pending';
+                const result = yield searchJokes(this.term);
 
-            runInAction(() => {
                 this.totalCount = result.total;
                 this.results = result.items;
                 this.status = 'completed';
-            });
-        } catch (e) {
-            runInAction(() => (this.status = 'failed'));
-            console.log(e);
-        }
-    }
+            } catch (e) {
+                this.status = 'failed';
+                console.log(e);
+            }
+        }.bind(this),
+    );
 }
 
-export const store = new BookSearchStore();
+export const store = new JokeSearchStore();

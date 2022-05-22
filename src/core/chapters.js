@@ -12,7 +12,7 @@ import {
     WhenExample,
     WhenWithPromiseExample,
 } from '../Chapter02';
-import { BookSearchExample } from '../Chapter03';
+import { JokeSearchExample } from '../Chapter03';
 import {
     ComputedDecoratorExample,
     ComputedEqualityExample,
@@ -137,7 +137,7 @@ export const chapters = applyPathPrefix([
             {
                 title: 'Book Search with Goodreads',
                 path: '/',
-                component: BookSearchExample,
+                component: JokeSearchExample,
             },
         ],
     },
