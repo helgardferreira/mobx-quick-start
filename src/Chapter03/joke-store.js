@@ -1,5 +1,5 @@
 import { searchJokes } from './goodreads.service';
-import { flow, action, computed, observable, runInAction } from 'mobx';
+import { flow, action, computed, observable, reaction, autorun } from 'mobx';
 
 // const searchState = observable({
 //     term: '',
@@ -17,7 +17,7 @@ import { flow, action, computed, observable, runInAction } from 'mobx';
 // });
 
 class JokeSearchStore {
-    @observable term = 'javascript';
+    @observable term = 'beer';
     @observable status = '';
     @observable.shallow results = [];
 
@@ -29,7 +29,16 @@ class JokeSearchStore {
     }
 
     constructor() {
-        this.search();
+        reaction(
+            () => this.term,
+            () => {
+                this.search();
+            },
+            {
+                fireImmediately: true,
+                delay: 1000,
+            },
+        );
     }
 
     @action.bound
@@ -41,6 +50,8 @@ class JokeSearchStore {
         function*() {
             try {
                 this.status = 'pending';
+                this.totalCount = 0;
+                this.results = [];
                 const result = yield searchJokes(this.term);
 
                 this.totalCount = result.total;

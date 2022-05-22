@@ -135,7 +135,7 @@ export const chapters = applyPathPrefix([
         title: 'A React App with MobX',
         examples: [
             {
-                title: 'Book Search with Goodreads',
+                title: 'Joke Search with Chuck Norris Jokes API',
                 path: '/',
                 component: JokeSearchExample,
             },
