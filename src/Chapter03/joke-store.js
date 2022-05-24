@@ -46,23 +46,21 @@ class JokeSearchStore {
         this.term = value;
     }
 
-    search = flow(
-        function*() {
-            try {
-                this.status = 'pending';
-                this.totalCount = 0;
-                this.results = [];
-                const result = yield searchJokes(this.term);
+    search = flow(function*() {
+        try {
+            this.status = 'pending';
+            this.totalCount = 0;
+            this.results = [];
+            const result = yield searchJokes(this.term);
 
-                this.totalCount = result.total;
-                this.results = result.items;
-                this.status = 'completed';
-            } catch (e) {
-                this.status = 'failed';
-                console.log(e);
-            }
-        }.bind(this),
-    );
+            this.totalCount = result.total;
+            this.results = result.items;
+            this.status = 'completed';
+        } catch (e) {
+            this.status = 'failed';
+            console.log(e);
+        }
+    });
 }
 
 export const store = new JokeSearchStore();

@@ -12,7 +12,9 @@ export const WishlistExample = asComponent(() => {
 
         @action
         addWishList(name) {
-            this.lists.push(new WishList(name));
+            const wishlist = new WishList(name);
+            this.lists.push(wishlist);
+            return wishlist;
         }
 
         @action
@@ -30,6 +32,11 @@ export const WishlistExample = asComponent(() => {
             return this.items.length === 0;
         }
 
+        @computed
+        get purchasedItems() {
+            return this.items.filter(item => item.purchased);
+        }
+
         constructor(name) {
             this.name = name;
         }
@@ -41,7 +48,9 @@ export const WishlistExample = asComponent(() => {
 
         @action
         addItem(title) {
-            this.items.push(new WishListItem(title));
+            const wishlistItem = new WishListItem(title);
+            this.items.push(wishlistItem);
+            return wishlistItem;
         }
 
         @action
@@ -54,6 +63,11 @@ export const WishlistExample = asComponent(() => {
         @observable title = '';
         @observable purchased = false;
 
+        @action
+        purchase() {
+            this.purchased = true;
+        }
+
         constructor(title) {
             this.title = title;
         }
@@ -61,7 +75,11 @@ export const WishlistExample = asComponent(() => {
 
     const store = new WishListStore();
 
-    store.addWishList('hello');
-    store.removeWishList(store.lists[0]);
-    console.log(store.lists.length);
+    const firstWishlist = store.addWishList('hello');
+    const meditations = firstWishlist.addItem('Meditations');
+    meditations.purchase();
+    const theRepublic = firstWishlist.addItem('The Republic');
+    store.lists[0].purchasedItems.forEach(item => {
+        console.log(item.title);
+    });
 });
