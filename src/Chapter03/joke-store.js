@@ -46,7 +46,7 @@ class JokeSearchStore {
         this.term = value;
     }
 
-    search = flow(function*() {
+    search = flow(function* () {
         try {
             this.status = 'pending';
             this.totalCount = 0;
