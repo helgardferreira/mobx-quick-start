@@ -6,7 +6,7 @@ Validate.validators.checkUser = async function(value) {
         await checkUser(value);
         return null;
     } catch (e) {
-        return 'Email already in use';
+        return 'already in use';
     }
 };
 
@@ -28,4 +28,4 @@ export const rules = {
     },
 };
 
-export const validate = (fields) => Validate.async(fields, rules);
+export const validate = fields => Validate.async(fields, rules);

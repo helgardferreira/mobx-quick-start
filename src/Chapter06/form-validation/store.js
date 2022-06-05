@@ -16,6 +16,7 @@ export class UserEnrollmentData {
     @observable enrollmentStatus = 'none';
 
     disposeValidation = null;
+    validateInterceptor = null;
 
     constructor() {
         this.setupValidation();
@@ -28,7 +29,16 @@ export class UserEnrollmentData {
                 return { firstName, lastName, password, email };
             },
             fields => {
-                this.validateFields(fields);
+                if (this.validateInterceptor && this.validating) {
+                    this.validateInterceptor.cancel();
+                }
+
+                this.validateInterceptor = this.validateFields(fields);
+                this.validateInterceptor.catch(e => {
+                    if (e.message !== 'FLOW_CANCELLED') {
+                        throw e;
+                    }
+                });
             },
         );
     }
