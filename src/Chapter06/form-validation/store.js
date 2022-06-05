@@ -1,35 +1,8 @@
 import { action, configure, flow, observable, reaction } from 'mobx';
-import Validate from 'validate.js';
-import { checkUser, enrollUser } from './service';
+import { validate } from './validations';
+import { enrollUser } from './service';
 
 configure({ enforceActions: 'always' });
-
-Validate.validators.checkUser = async function(value) {
-    try {
-        await checkUser(value);
-        return null;
-    } catch (e) {
-        return 'Email already in use';
-    }
-};
-
-const rules = {
-    firstName: {
-        presence: { allowEmpty: false },
-    },
-    lastName: {
-        presence: { allowEmpty: false },
-    },
-    password: {
-        presence: { allowEmpty: false },
-        length: { minimum: 3 },
-    },
-    email: {
-        presence: { allowEmpty: false },
-        email: true,
-        checkUser: true,
-    },
-};
 
 export class UserEnrollmentData {
     @observable email = '';
@@ -75,7 +48,7 @@ export class UserEnrollmentData {
         this.errors = null;
 
         try {
-            yield Validate.async(fields, rules);
+            yield validate(fields);
 
             this.errors = null;
         } catch (err) {
